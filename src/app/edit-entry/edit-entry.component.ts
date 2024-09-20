@@ -546,7 +546,6 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
       'forecastedAmount',
     ];
 
-    // Cast formData to `any` for dynamic access
     const missingFields = requiredFields.filter(
       (field) => !(this.formData as any)[field]
     );
@@ -555,8 +554,8 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
   }
 
   loadAccountNumbers(selectedType: string): void {
-    const corporateId = 3; // Assuming corporate ID is constant or obtained elsewhere
-    let encodedType = encodeURIComponent(selectedType.trim()); // Encode to handle spaces and special characters
+    const corporateId = 3; 
+    let encodedType = encodeURIComponent(selectedType.trim()); 
 
     if (encodedType === 'internal Account') {
       encodedType = 'Internal Account';
@@ -566,7 +565,7 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
     const url = `${baseUrl}accounts/by-type?accountType=${encodeURIComponent(
       encodedType
     )}&corporateId=${corporateId}`;
-    console.log('Fetching account numbers with URL:', url); // Log the request URL for debugging
+    console.log('Fetching account numbers with URL:', url); 
 
     this.http
 
@@ -574,28 +573,28 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
 
       .pipe(
         catchError((error: any) => {
-          console.error('Error fetching account numbers:', error); // Log any errors encountered
-          return throwError(() => new Error('Error fetching account numbers')); // Handle the error
+          console.error('Error fetching account numbers:', error); 
+          return throwError(() => new Error('Error fetching account numbers')); 
         })
       )
       .subscribe(
         (result: any) => {
-          console.log('API response:', result); // Log the API response to inspect its structure
+          console.log('API response:', result);
           if (result && result.data) {
             this.accountTypes = result.data.map((item: any) => ({
-              value: item.accountNumber, // Use accountNumber as the value
+              value: item.accountNumber, 
 
-              text: item.accountNumber, // Use accountNumber as the display text
+              text: item.accountNumber, 
             }));
           } else {
             this.accountTypes = [];
-            console.error('Unexpected response structure:', result); // Log if the response is null or unexpected
+            console.error('Unexpected response structure:', result); 
           }
-          this.cdr.detectChanges(); // Update the view with new data
+          this.cdr.detectChanges(); 
         },
 
         (error: any) => {
-          console.error('Subscription error:', error); // Log any subscription errors
+          console.error('Subscription error:', error); 
         }
       );
   }
@@ -609,7 +608,7 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
         next: (response) => {
           if (response.code === 200 && response.status === 'success') {
             console.log('API Response:', response);
-
+            console.log(this.mode,"mode")
             this.formData = {
               corporateCode: response.data.corporateCode || '',
               corporateName: response.data.corporateName || '',
@@ -631,6 +630,7 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
             };
             setTimeout(() => {
               console.log('FormData:222222222222222222', this.formData);
+              console.log(this.mode,"mode")
               if (this.formData.forecastingAs === 'Inward Payment') {
                 this.modeOptionsList = this.modeOptions.inwardPayment;
               } else if (this.formData.forecastingAs === 'Outward Payment') {
@@ -640,7 +640,7 @@ export class EditEntryComponent implements OnInit, AfterViewInit {
               if (this.formData.accountType !== '') {
                 this.onAccountTypeChange();
               }
-            }, 1000);
+            }, 2000);
             this.toggleValueDate();
           } else {
             console.error('Failed to fetch data', response);

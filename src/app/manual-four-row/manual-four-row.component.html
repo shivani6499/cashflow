@@ -82,7 +82,7 @@
                     [(ngModel)]="formData.forecastingAs"
                     (change)="onForecastingAsChange($event)"
                   >
-                    <option selected value="">Please Select</option>
+                    <option selected value="" hidden>Please Select</option>
                     <option value="Inward Payment">Inward Payment</option>
                     <option value="Outward Payment">Outward Payment</option>
                   </select>
@@ -98,7 +98,7 @@
                     [(ngModel)]="formData.entryType"
                     (change)="toggleValueDate()"
                   >
-                    <option selected value="">Please Select</option>
+                    <option selected value="" hidden>Please Select</option>
                     <option value="O">One Time</option>
                     <option value="R">Recurring</option>
                   </select>
@@ -144,7 +144,7 @@
                     name="mode"
                     [(ngModel)]="formData.mode"
                   >
-                    <option selected value="">Please Select</option>
+                    <option selected value="" hidden>Please Select</option>
                     <option
                       *ngFor="let option of modeOptionsList"
                       [value]="option.value"
@@ -184,7 +184,7 @@
                     [(ngModel)]="formData.accountType"
                     (change)="onAccountTypeChange()"
                   >
-                    <option selected value="">Please Select</option>
+                    <option selected value="" hidden>Please Select</option>
                     <option value="Internal Account">Internal Account</option>
                     <option value="External Account">External Account</option>
                   </select>
@@ -202,7 +202,7 @@
                     [(ngModel)]="formData.accountNumber"
                     [disabled]="this.formData.corporateCode === ''"
                   >
-                    <option value="" selected>Please Select</option>
+                    <option selected value="" hidden>Please Select</option>
                     <option
                       *ngFor="let account of accountTypes"
                       [value]="account.accountNumber"
@@ -264,6 +264,7 @@
                     id="valueDate"
                     name="valueDate"
                     [(ngModel)]="formData.valueDate"
+                    [min]="today"
                   />
                 </div>
               </div>
@@ -284,7 +285,6 @@
                   />
                 </div>
               </div>
-
               <div class="col-md-3" id="recurringFieldsTo">
                 <div class="mb-3">
                   <label for="recurringTo" class="form-label"
@@ -296,6 +296,7 @@
                     id="recurringTo"
                     name="recurringTo"
                     [(ngModel)]="formData.recurringTo"
+                    [min]="today"
                     (change)="updateRecurringOptions()"
                   />
                 </div>
@@ -312,7 +313,10 @@
                     name="recurrencePattern"
                     [(ngModel)]="formData.recurrencePattern"
                   >
-                    <option selected value="">Please Select</option>
+                    <option *ngIf="!formData.recurrencePattern" value="" hidden>
+                      Please Select
+                    </option>
+
                     <option
                       *ngFor="let option of recurringOptions"
                       [value]="option"
@@ -377,6 +381,12 @@
                           name="corporateType"
                           [(ngModel)]="corporateTypeTxt"
                         >
+                          <!-- Default option -->
+                          <option value="" disabled hidden>
+                            Please select
+                          </option>
+
+                          <!-- Other options -->
                           <option value="corporateCode">Corporate Code</option>
                           <option value="corporateName">Corporate Name</option>
                           <!-- Add more options as needed -->
@@ -390,6 +400,7 @@
                           name="searchby"
                           placeholder="Enter Data"
                           (keyup.enter)="onSearchClick()"
+                          (keyup)="onKeyupSearch($event)"
                         />
                       </div>
                       <div class="col-lg-2">
@@ -440,13 +451,18 @@
                       Refresh
                     </button>
                     <div class="btn-bottom">
-                      <button class="btn btn-outline-secondary"
-                      (click)="onPrevious()">
+                      <button
+                        class="btn btn-outline-secondary"
+                        (click)="onPrevious()"
+                      >
                         <i class="mdi mdi-menu-left"></i>
                       </button>
-                      <span>{{filterDataObj.page}}</span>
-                      <button class="btn btn-outline-secondary"
-                      (click)="onNext()">
+                      <span> {{ filterDataObj.page }} </span>
+                      <button
+                        class="btn btn-outline-secondary"
+                        (click)="onNext()"
+                        [disabled]="!hasNextPage"
+                      >
                         <i class="mdi mdi-menu-right"></i>
                       </button>
                     </div>

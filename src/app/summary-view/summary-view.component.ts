@@ -21,11 +21,10 @@ export class SummaryViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Get query parameters
     this.route.queryParams.subscribe((params) => {
       this.accountNumber = params['accountNumber'];
-      this.startDate = params['startDate']; // Get startDate from query params
-      this.endDate = params['endDate']; // Get endDate from query params
+      this.startDate = params['startDate'];
+      this.endDate = params['endDate'];
 
       if (this.accountNumber && this.startDate && this.endDate) {
         this.fetchData();
@@ -35,7 +34,7 @@ export class SummaryViewComponent implements OnInit {
     });
   }
   closePopup(): void {
-    this.selectedTransactionId = null; // Set to null to hide the pop-up
+    this.selectedTransactionId = null;
   }
 
   fetchData(): void {
@@ -44,7 +43,6 @@ export class SummaryViewComponent implements OnInit {
       return;
     }
 
-    // Build API URL with accountNumber, startDate, and endDate
     const apiUrl = `${baseUrl}transactions/custom-range-summary?accountNumber=${this.accountNumber}&startDate=${this.startDate}&endDate=${this.endDate}`;
 
     this.http.get(apiUrl).subscribe({
@@ -79,7 +77,7 @@ export class SummaryViewComponent implements OnInit {
   closeMenu() {
     this.selectedTransactionId = null;
   }
-  
+
   toggleMenu(transactionId: number): void {
     this.selectedTransactionId =
       this.selectedTransactionId === transactionId ? null : transactionId;

@@ -124,7 +124,7 @@
                 <button
                   class="btn rounded-pill btn-label-secondary me-2 margin"
                   *ngIf="rejectAll"
-                  (click)="showPopup()"
+                  (click)="showPopupBtn()"
                 >
                   Reject All
                 </button>
@@ -207,14 +207,15 @@
                         <button
                           *ngIf="showOnlyPending"
                           class="btn-none green"
-                          (click)="rightIconApi()"
+                          (click)="rightIconApi($event, result.id)"
+                          [(ngModel)]="rightIconApi"
                         >
                           <i class="bi bi-check2"></i>
                         </button>
                         <button
                           *ngIf="showOnlyPending"
                           class="btn-none red"
-                          (click)="showPopup1(result.id)"
+                          (click)="showPopupIcon(result.id)"
                         >
                           <i class="bi bi-x"></i>
                         </button>
@@ -230,8 +231,7 @@
               <span>1 of 1</span>
               <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                  <li class="page-item disabled"
-                  (click)="onPrevious()">
+                  <li class="page-item disabled" (click)="onPrevious()">
                     <a
                       class="page-link"
                       href="javascript:void(0)"
@@ -241,10 +241,11 @@
                     </a>
                   </li>
                   <li class="page-item active">
-                    <a class="page-link" href="javascript:void(0)">{{filterDataObj.page}}</a>
+                    <a class="page-link" href="javascript:void(0)">{{
+                      filterDataObj.page
+                    }}</a>
                   </li>
-                  <li class="page-item disabled"
-                  (click)="onNext()">
+                  <li class="page-item disabled" (click)="onNext()">
                     <a
                       class="page-link"
                       href="javascript:void(0)"
@@ -259,8 +260,9 @@
           </div>
         </div>
       </div>
+
       <!-- popup.component.html 1 -->
-      <div class="popup-overlay" *ngIf="isPopupVisible">
+      <div class="popup-overlay" *ngIf="isDialogVisible">
         <div class="popup-content">
           <h3 class="popup-title">Reject All</h3>
           <form class="popup-form">
@@ -274,51 +276,47 @@
             <div class="popup-buttons">
               <button
                 type="button"
-                class="btn btn-confirm"
-                (click)="onConfirm()"
+                class="btn btn-cancel"
+                (click)="onCancelIcon()"
               >
-                Submit
-              </button>
-              <button type="button" class="btn btn-cancel" (click)="onCancel()">
                 Cancel
+              </button>
+              <button type="button" class="btn btn-confirm" (click)="byIcon()">
+                Submit
               </button>
             </div>
           </form>
         </div>
-
-        <!-- popup 2 -->
-        <div class="dialog-overlay" *ngIf="isDialogVisible">
-          <div class="dialog-content">
-            <h3 class="dialog-title">Reject All</h3>
-            <form class="dialog-form">
-              <input
-                type="text"
-                name="rejectReason2"
-                [(ngModel)]="rejectionReason"
-                placeholder="Enter reason"
-                class="form-input"
-              />
-              <div class="dialog-buttons">
-                <button
-                  type="button"
-                  class="btn btn-confirm"
-                  (click)="onConfirm1()"
-                >
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-cancel"
-                  (click)="onCancel1()"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       </div>
-      <div class="content-backdrop fade"></div>
+
+      <!-- popup 2 for btn  -->
+      <!-- <div class="dialog-overlay" *ngIf="isPopupVisible">
+        <div class="dialog-content">
+          <h3 class="dialog-title">Reject All</h3>
+          <form class="dialog-form">
+            <input
+              type="text"
+              name="rejectReason2"
+              [(ngModel)]="rejectionReason"
+              placeholder="Enter reason"
+              class="form-input"
+            />
+            <div class="dialog-buttons">
+              <button
+                type="button"
+                class="btn btn-cancel"
+                (click)="onCancel1()"
+              >
+                Cancel
+              </button>
+              <button type="button" class="btn btn-confirm" (click)="byBtn()">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div> -->
     </div>
+    <div class="content-backdrop fade"></div>
   </div>
 </div>

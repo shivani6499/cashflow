@@ -19,7 +19,7 @@ export class SummaryComponent implements AfterViewInit {
   error: string | null = null;
   startDate: string = '';
   endDate: string = '';
-  dateRangeToggled: boolean = false; // Variable to track the toggle state
+  dateRangeToggled: boolean = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -91,14 +91,12 @@ export class SummaryComponent implements AfterViewInit {
       );
       const endDateFormatted = endDate.toLocaleDateString(undefined, options);
 
-      this.startDate = selectedDate.toISOString().split('T')[0]; // for sending to API
-      this.endDate = endDate.toISOString().split('T')[0]; // for sending to API
+      this.startDate = selectedDate.toISOString().split('T')[0];
+      this.endDate = endDate.toISOString().split('T')[0];
 
       this.forecastPeriod = `${startDateFormatted} - ${endDateFormatted}`;
       console.log('Forecast period:', this.forecastPeriod);
       console.log('Start date:', this.startDate, 'End date:', this.endDate);
-
-      // Fetch yearly summary with the selected date range
       if (this.accounts.length > 0) {
         const accountNumber = this.accounts[0].accountNumber;
         this.fetchYearlySummary(accountNumber, this.startDate, this.endDate);
@@ -109,7 +107,7 @@ export class SummaryComponent implements AfterViewInit {
   }
 
   toggleTable(account: any) {
-    this.dateRangeToggled = !this.dateRangeToggled; // Toggle the state
+    this.dateRangeToggled = !this.dateRangeToggled;
 
     if (this.dateRangeToggled) {
       console.log('Date range toggled on.');
@@ -127,15 +125,14 @@ export class SummaryComponent implements AfterViewInit {
       }
     } else {
       console.log('Date range toggled off. No date filter applied.');
-      this.fetchYearlySummary(account.accountNumber, '', ''); // Fetch summary without date range
+      this.fetchYearlySummary(account.accountNumber, '', '');
     }
 
-    // Navigate to the summary view
     this.router.navigate(['/summary-view'], {
       queryParams: {
         accountNumber: account.accountNumber,
-        startDate: this.startDate, // Pass the selected start date
-        endDate: this.endDate, // Pass the selected end date
+        startDate: this.startDate,
+        endDate: this.endDate,
       },
     });
   }
@@ -217,19 +214,18 @@ export class SummaryComponent implements AfterViewInit {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '80%', // Adjust the size of the inner cutout
+          cutout: '80%',
           plugins: {
             legend: {
-              position: 'right', // Position the legend on the right side
+              position: 'right',
               labels: {
-                boxWidth: 12, // Width of the color box
-                padding: 10, // Padding between the legend items
+                boxWidth: 12,
+                padding: 10,
               },
             },
             tooltip: {
               callbacks: {
                 label: function (tooltipItem) {
-                  // Return the label for each segment with its value
                   const datasetLabel = tooltipItem.dataset.label || '';
                   const dataLabel = tooltipItem.label || '';
                   const value = tooltipItem.raw;
@@ -248,31 +244,30 @@ export class SummaryComponent implements AfterViewInit {
       new Chart(ctx2, {
         type: 'doughnut',
         data: {
-          labels: ['Future collection', 'Payment by sip', 'cash payment'], // Labels for each segment
+          labels: ['Future collection', 'Payment by sip', 'cash payment'],
           datasets: [
             {
-              label: 'Cash Flow Distribution', // General label for the dataset
-              data: [200, 150, 250], // Data for each segment
-              backgroundColor: ['#4CAF50', '#9C27B0', '#FF9800'], // Colors for each segment
+              label: 'Cash Flow Distribution',
+              data: [200, 150, 250],
+              backgroundColor: ['#4CAF50', '#9C27B0', '#FF9800'],
             },
           ],
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          cutout: '80%', // Adjust the size of the inner cutout
+          cutout: '80%',
           plugins: {
             legend: {
-              position: 'right', // Position the legend on the right side
+              position: 'right',
               labels: {
-                boxWidth: 12, // Width of the color box
-                padding: 10, // Padding between the legend items
+                boxWidth: 12,
+                padding: 10,
               },
             },
             tooltip: {
               callbacks: {
                 label: function (tooltipItem) {
-                  // Return the label for each segment with its value
                   const datasetLabel = tooltipItem.dataset.label || '';
                   const dataLabel = tooltipItem.label || '';
                   const value = tooltipItem.raw;

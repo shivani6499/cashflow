@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,16 +38,29 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     EditEntryComponent,
-    NgxUiLoaderModule,
-    MatTableModule, // <-- Import MatTableModule here
+   
+    MatTableModule, 
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
 
+    NgxUiLoaderModule.forRoot({
+      bgsColor: '#009999', 
+      bgsOpacity: 0.5,   
+  
+      bgsSize: 60,    
+      bgsType: 'rectangle-bounce', 
+      pbColor: '#009999', 
+      pbThickness: 5,     
+    }),
     NgxUiLoaderHttpModule.forRoot({
-      showForeground: true,
+      showForeground: false,
+   
     }),
   ],
+ 
+
+
   providers: [],
   bootstrap: [AppComponent],
 })
